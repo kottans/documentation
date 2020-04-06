@@ -1,0 +1,142 @@
+.docusaurus-highlight-code-line {
+  background-color: rgb(72, 77, 91);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}
+
+
+html[data-theme] .whiteCat  {
+  display: none;
+}
+
+.font {
+  font-family: 'Press Start 2P';
+}
+
+.flex-grid {
+  padding: 4rem 0 0 0;
+  text-align: center;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
+.item{
+  position: absolute;
+  top: 200px;
+  left: -200px;
+  width: 100%;
+}
+
+@media (max-width: 1000px) {
+  .flex-grid {
+    display: block;
+  }
+
+  .flex-grid .col {
+    width: 100%;
+    margin: 0 0 10px 0;
+  }
+
+  .item{
+    position: absolute;
+    top: 200px;
+    left: 0;
+    width: 100%;
+  }
+}
+
+.center {
+  text-align: center;
+  font-family: monospace;
+}
+
+.cat {
+  position: relative;
+  left: -170px;
+  top: -15px;
+  width: 100%;
+  opacity: 0.1;
+}
+
+.fakeTerminal {
+  max-width: 500px;
+  width: 100%;
+  display: contents;
+  background: #151515;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+
+.fakeButtons {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  border: 1px solid #000;
+  position: relative;
+  top: 6px;
+  left: 6px;
+  background-color: #f55551;
+  display: table-cell;
+}
+
+.fakeMinimize {
+  left: 11px;
+  background-color: #f6b73e;
+}
+
+.fakeZoom {
+  left: 16px;
+  background-color: #32c146;
+}
+
+.fakeMenu {
+  box-sizing: border-box;
+  height: 25px;
+  background-color: #151515;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  margin: 0 auto;
+
+}
+
+.fakeScreen {
+  background-color: #25313e;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 20px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.lines {
+  max-width: 500px;
+  font-family: monospace;
+  position: relative;
+  left: 5%;
+  text-align: left;
+  font-size: 1.25em;
+}
+
+.line1 {
+  color: #9CD9F0;
+}
+
+.line2 {
+  color: #CDEE69;
+}
+
+.line3 {
+  color: #E09690;
+
+}
+
+.line4 {
+  color: #fff;
+}

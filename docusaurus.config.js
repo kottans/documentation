@@ -1,11 +1,11 @@
 module.exports = {
   title: 'Kottans',
   tagline: 'Knowledge must be shared',
-  url: 'https://kottans.github.io',
-  baseUrl: '/',
+  url: 'https://kottans.org',
+  baseUrl: '/documentation/',
   favicon: 'img/favicon.ico',
   organizationName: 'kottans',
-  projectName: 'kottans doc',
+  projectName: 'documentation',
   themeConfig: {
     navbar: {
       title: 'Kottans',

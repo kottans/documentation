@@ -1,0 +1,37 @@
+name: Build docs website and deploy on gh-pages
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull source code
+        uses: actions/checkout@v2
+        with:
+          path: './'
+      - name: Clean npm cache directory
+        run: npm cache clear --force
+      - name: Detect npm cache location
+        id: npm-cache
+        run: echo "::set-output name=dir::$(npm config get cache)"
+      - name: Set up workflow caching of npm cache
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: ${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-cache-
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: npm run build
+      - name: Setup git creds
+        uses: oleksiyrudenko/gha-git-credentials@v2-latest
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish changes
+        run: |
+          npm run deploy

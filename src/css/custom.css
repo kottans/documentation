@@ -59,8 +59,6 @@ html[data-theme] .whiteCat  {
   top: -15px;
   width: 100%;
   opacity: 0.1;
-
-  z-index: -1;
 }
 
 .fakeTerminal {

@@ -76,37 +76,37 @@ function Home() {
         <Layout
     title={`Hello from ${siteConfig.title}`}
     description="Description will go into a meta tag in <head />">
-        <main>
-        <section className="flex-grid">
+            <main>
+            <section className="flex-grid">
 
-        <div className="container col">
-        <div className="item">
-
-        <h1 className="hero__title center">{siteConfig.title}</h1>
-        <p className="hero__subtitle center">{siteConfig.tagline}</p>
-        <div className={styles.buttons}>
-        <Link
-    className={classnames(
-        'button button--outline button--secondary button--lg',
-        styles.getStarted,
-)}
-    to={useBaseUrl('docs/doc/philosophy')}>
-    Get Started
-    </Link>
-    </div>
-    </div>
-    <img
-    className='cat'
-    alt="kottans logo"
-    src={useBaseUrl('img/logoBlack.svg')}
-    />
-    </div>
-
-    <div className="container col">
-        <Feature/>
-        </div>
-        </section>
-        </main>
+                <div className="container col">
+                    <img
+                    className='cat'
+                    alt="kottans logo"
+                    src={useBaseUrl('img/logoBlack.svg')}
+                    />
+                    <div className="item">
+                    <h1 className="hero__title center">{siteConfig.title}</h1>
+                    <p className="hero__subtitle center">
+                        {siteConfig.tagline}
+                    </p>
+                    <div className={styles.buttons}>
+                    <Link
+                    className={classnames(
+                        'button button--outline button--secondary button--lg',
+                        styles.getStarted,
+                )}
+                    to={useBaseUrl('docs/doc/philosophy')}>
+                    Get Started
+                    </Link>
+                    </div>
+                </div>
+            </div>
+            <div className="container col">
+                <Feature/>
+            </div>
+            </section>
+            </main>
         </Layout>
 );
 }

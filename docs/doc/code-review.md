@@ -251,6 +251,109 @@ Bonus:
 
 [ES6 classes cheat-sheet](https://gist.github.com/OleksiyRudenko/672d39b08d9d0da4e179aca49876c58b)
 
+### Friends App
+
+Common mistakes:
+
+- Single responsibility - your functions should do only one job. As an example function in which you fetch users should only fetch them and not render, transform or process them in other ways. All these things should be done in another place, outside your function. The same applied to the sort function, which usually does all types of sorting 😉
+- You should handle fetch response status - [https://www.tjvantoll.com/2015/09/13/fetch-and-errors/](https://www.tjvantoll.com/2015/09/13/fetch-and-errors/)
+- Don’t use names as arr, array, data or etc. They to generic. Don’t use things like sortingByABC and sortingByZYX - it’s unclear and just weird. `user1` and `user2` - don't use numbers in names. Just don't :) `friendsArr` also a bad idea - you show data type in the variable name and in JS it’s redundant
+- Prefer template strings to “createElement” API
+- Your template strings which contain layouts should have indentations as in HTML
+- When you need to decide which sort of condition was selected, prefer `value` of `input` instead “check classname of pressed element”, or “compare pressed element to saved element” etc. You can have value `female`, get value and then just use it
+- Don’t overuse global variables, keep data that you are using closest as possible to the place where you using it. As an example, a request URL can be inside a function that sends a request
+- Redundant comments - don’t use stuff ‘———————————‘ or “here I will sort my array”. The first one is ugly, second - redundant because the reviewer will understand that you do sort, from your code. The only situation in which you should use comments is when you need to describe why something is going on and this is 1% of all situations :)
+- Please, doublecheck english wordings. Use code spellchecker, etc.
+- Don't use nested ternaries. They hard to read
+
+**Please also consider next**
+
+_Sorting logic_
+
+You don't need things like `sortAscendingFullName` and `sortDescendingFullName`, because you can have only one function, which will sort by name. For this, you can concatenate the name and full name into one value somewhere.
+
+Than, you don't need `sortAscending` and `sortDescending` functions.
+
+> ⚠️ Please, consider next more like pseudocode and not like the source of copy-paste. You should find a better solution on your own.
+> 
+
+> Regarding naming - feel free to use compareNames and compareSurnames if you like.
+> 
+
+It is much simpler code when you will write something like this:
+
+```js
+const compareAge = (firstFriend, secondFriend) => {
+  return firstFriend.dob.age - secondFriend.dob.age;
+};
+
+```
+
+Then, also as an example, you can have:
+
+```js
+const ageSorters = {
+  descending: () => {
+    friends.sort((a, b) => compareAge(b, a));
+  },
+  ascending: () => {
+    friends.sort(compareAge);
+  }
+};
+
+```
+
+And use it like this:
+
+```js
+myForm.addEventListener("change", ({ target: radioButton }) => {
+  if (radioButton.name === AGE) {
+    ageSorters[radioButton.value]();
+  }
+
+  if (radioButton.name === NAME) {
+    nameSorters[radioButton.value]();
+  }
+});
+
+```
+
+Which, possibly, can be simplified to:
+
+```js
+myForm.addEventListener("change", ({ target: radioButton }) => {
+  const sorter =
+    radioButton.name === AGE
+      ? ageSorters[radioButton.value]
+      : nameSorters[radioButton.value];
+
+  sorter();
+});
+
+```
+
+And that's all :)
+
+1. You have separated the logic of sorting into two separate domains - sorting by age and sorting by name and moved everything into separately mapped handlers. So you don't need to write endless `if ... else` checks. Instead, you are using declarative code.
+2. Because of this you don't have a place for "misprinting"
+3. You don't pass any strings as arguments anywhere, which is antipattern in general. And with object keys in particular.
+
+_Premature optimization_
+
+And don't do premature optimization. As an example [here](https://wiki.c2.com/?PrematureOptimization) TLDR: You write code for humans, not machines.
+
+So, the quote from the article above:
+
+1. Make it work.
+2. Make it right - the code is readable and every idea is expressed.
+3. Make everything work.
+4. Make everything right.
+5. Use the system and find performance bottlenecks.
+6. Use a profiler in those bottlenecks to determine what needs to be optimized.
+7. Make it fast. You maintained unit tests, right? Then you can refactor the code mercilessly in order to improve the performance.
+
+And remember, the best way to speed up the review, is to fix errors prior to review. 90% of errors are shared - go thru closed PRs with Friends App and check discussions there. You will find places with the same mistakes
+
 ---
 
 ## Video

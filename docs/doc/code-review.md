@@ -3,7 +3,7 @@ id: code-review
 title: How to Conduct A Helpful Code Review
 ---
 
-Consider following links:
+As a reviewer consider the following guidelines:
 
 - [How to Do Code Reviews Like a Human (Part One)](https://mtlynch.io/human-code-reviews-1/) /
   [Code review по-человечески (часть 1)](https://habr.com/en/post/340550/)
@@ -11,7 +11,14 @@ Consider following links:
   [Code review по-человечески (часть 2)](https://habr.com/ru/post/342244/)
 - [PR Code Review Phrase Book](https://gist.github.com/OleksiyRudenko/e6f573d7aca2cc854ccce6087cfe7138)
 
-## Formatting, Style, Manual Testing
+## General requirements
+
+The code is written for other people to read and contribute to comfortably.
+We also want our code to be maintainable and scalable.
+
+The majority of recommendations in the next, tasks-specific section,
+are also universal and are put there just for quick reference in the context
+of a specific task.
 
 ### Pull-request template
 
@@ -25,11 +32,10 @@ PRs should have proper name (as per task name), should contain link to working d
 ### Code formatting
 
 - `console.log` statements should not be left in final version of the code, unless it's part of the functionality
-- Please advise your peer to fix irregular indentations and remove redundant empty lines.
-- Please advise your peer to put newline at the end of every file.
-- Unnecessary comments should be avoided. Advise your peer to find a way to express their intent through expressive variable names or by abstracting part of the code into properly named function.
-- Magic numbers are [bad](https://stackoverflow.com/questions/47882/what-is-a-magic-number-and-why-is-it-bad)
-- Add an empty lines at the end of each file. [Reason](https://stackoverflow.com/questions/729692/why-should-text-files-end-with-a-newline?noredirect=1&lq=1)
+- Fix irregular indentations and remove redundant empty lines.
+- Put an empty line at the end of every file. [Reason](https://stackoverflow.com/questions/729692/why-should-text-files-end-with-a-newline?noredirect=1&lq=1). Tune your code editor's settings so it does this for you.
+- Unnecessary comments should be avoided. Find a way to express the intent through expressive variable names or by abstracting part of the code into properly named function. Comments, if there are any, should explain "why", not "what".
+- Use prettier.io for it to format the code for you. Turn it on in your code editor or install a plugin. 
 
 ### Code style
 
@@ -47,20 +53,39 @@ let myVar, myOtherVar;
 
 ```javascript
 //Before:
-let fns, a, b, cont;
+let fns, a, b, cont, el, item;
 
 // After:
-let functionsList, card, rootElement, content;
+let functionsList, card, rootElement, content, person, friend;
 ```
 
 - Variable names should not be too general.
 
 ```javascript
 //Before:
-let arr, str;
+let arr, obj, str;
 
 // After:
-let cardsList, cardTitle;
+let cardsList, card, cardTitle;
+```
+
+- Functions denote actions hence their names should start with a verb.
+  Variables containing strings, numbers, objects are normally nouns. 
+  Boolean variables/functions start with `is`, `does`, `has` etc.
+  A variable containing multiple entities and functions returning lists contain entity name in plural form.
+
+```javascript
+//Before:
+function card() { }
+const flipped = true;
+const card = [];
+const buildPresentation = () => [];
+
+// After:
+function flipCard() { }
+const isFlipped = true;
+const cards = [];
+const buildPresentations = () => [];
 ```
 
 - If-statement: multiple conditions can often be combined in one condition:
@@ -75,6 +100,8 @@ if (a || b) return;
 ```
 
 - Magic numbers in code should be avoided. For details see [this link](https://stackoverflow.com/questions/47882/what-is-a-magic-number-and-why-is-it-bad).
+
+Define well-named constants so that code reads as close to English as only possible. 
 
 ### DRY, KISS, SOLID
 
@@ -98,12 +125,12 @@ Please read carefully about [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_y
 
    ```javascript
    // Before
-   myArray.map((item) => {
-     return item.name;
+   cards.map((card) => {
+     return card.name;
    });
 
    // After
-   myArray.map((item) => item.name);
+   cards.map((card) => card.name);
    ```
 
 1. Creating global variables by accident should be avoided. Variables should be always declared with let/const keywords:
@@ -202,16 +229,14 @@ Avoid using `!important` in your styles.
 
 ### DOM API
 
-**event delegation**
-
 **DOM manipulation in loops.**
 
 Adding elements to DOM from a loop is a bad practice. A browser will run reflow and repaint for every element in the loop. Instead, you can:
 
-1. Use `append` method, which can add several elements in one operation
+1. Use `append` method, which can add several elements in one operation.
 2. Create some wrapper, add your items to the wrapper and then add it to DOM. It will be one operation.
 3. Clone current container. Add items to a container and then replace your old container with a new one. But be aware of event listeners.
-4. Use `innerHTML` instead
+4. Use `innerHTML` instead.
 
 **Use of `window.event` property**
 [`window.event`](https://developer.mozilla.org/en-US/docs/Web/API/Window/event) is not universally supported and should be avoided. Notably fails in Firefox with error message "window.event is undefined". Use `event` passed to event handler function:
@@ -236,6 +261,13 @@ someElement.addEventListener("click", ({ target }) => {
 });
 ```
 
+**Event delegation**
+
+Do not assign an event listener to every similar element.
+Instead, add listener to their shared container (parent)
+and use `event.target` to identify a specific item the event
+happened with.
+
 **Relying on DOM structure**
 
 Don't use constructions like `children[0]`, `firstElementChild`, `parentNode`, `nextSibling`, etc. In such way, you rely on the order of DOM elements. So in case when you will have changed design - your code will be broken. Which is bad, obviously. Use `querySelector` or `closest`, if in event, instead.
@@ -248,80 +280,89 @@ Don't use inline style changing - `element.style`. In most cases this is a bad a
 2. This is an imperative way, you need to write declarative and describe what your code does, not how. This will make your code shorter and easier to maintain.
 3. Reuse of code. Saying, you will need to rotate some other stuff - you will add a similar line to another part of an application. Which is not right because of DRY.
 
-- Separation of responsibility - JS for logic, CSS - for styling.
+So, replace such parts with css classes. You can use `classList` to manipulate them.
 
-So, replace such parts classes. You can use `classList` to manipulate them.
+Separation of responsibility: JS is for logic, CSS - for styling.
 
 **Handling changes**
 
 `keyUp` handles not all input types (try pasting text via context menu instead of typing)
+
+### A Tiny JS World -- (pre-OOP)
+
+_Relates to [Building a Tiny JS World](https://github.com/kottans/frontend/blob/master/tasks/js-pre-oop.md) task._
+
+1. Men and women belong to the same biological species.
+1. `prototype`-based or ES2015/ES6 `class` syntax aren't used.
+1. Code is [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself), which means that whenever you see a pattern in your code those should be eliminated as much as possible. Examples:
+   1. `print(dog); print(cat); etc ... ` should be refactored employing `Array.forEach` as the least
+   1. `` `${obj.legs}; ${obj.name}; etc...` `` (yes, strings are also code) must be refactored employing appropriate `Array` methods
+1. `Object` methods like `keys`, `values`, `entries` shouldn't be used when a particular order is required as these do not guarantee any particular order of keys/values. Same refers to `for...of` and `for...in` when applied to objects.
+   Hint: List explicitly the properties used to form an object presentation string.
 
 ### OO JS (Frogger)
 
 Relates to
 [Object-Oriented JavaScript](https://github.com/kottans/frontend/blob/master/tasks/js-oop.md) task.
 
-Minimal requirements to meet:
-
-- [ ] it is OK to employ ES6 features like `const`, `let` etc.
-- [ ] OO is implemented using JS prototype chain object model (**not** ES6 classes syntax)
-- Requirements re **Constants**:
-  - [ ] all numbers like block dimensions, initial locations are defined as constants
-  - [ ] there are core constants and derived constants
-        (e.g. `const FIELD_WIDTH = BLOCK_WIDTH * BLOCKS_NUMBER;`)
-  - [ ] arrays of constants are also constants
-        (e.g. `const INITIAL_POSITIONS = [1,2,3,4].map(rowNumber => rowNumber * BLOCK_HEIGHT);`)
-  - [ ] const objects help organizing and structure const data even better
-        (e.g. `const PLAYER_CONF = { initialPosition: {x: 1, y: 5}, sprite: '...', ...etc... };`
-- Requirements re **OOP**:
-  - [ ] properties common for some classes are generalized into a base class
-        (e.g. there is `Character` base class, which is extended by `Enemy` and `Player` classes)
-  - [ ] class extension is implemented using `Subclass.prototype = Object.create(Superclass.prototype)`,
-        not `Subclass.prototype = new Superclass(params);`;
-        [Useful resource](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain)
-  - [ ] classes do not refer to any global variables, like global variable `player`, which is an instance of `Player` class
-        (referring to global constants and globals provided by the gaming platform like `Resources` is OK);
-        Hint: pass `Player` instance as an argument to every enemy
-  - [ ] Separation of Concerns principle is followed
-        (e.g. `update` method does only rendering and
-        doesn't **contain** any inline code to check e.g. collisions)
-  - [ ] the code is very [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)
-- Most common mistakes
-  - [ ] Make sure `target = condition ? valueWhenConditionTrue : valueWhenConditionFalse` is used instead of
-        `condition ? target = valueWhenConditionTrue : target = valueWhenConditionFalse`;
-        [Conditional (ternary) operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator)
+A. Minimal requirements to meet:
+1. employ ES6 features like `const`, `let` etc. (with exclusion of ES6 `class` syntax)
+1. the code is very [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)
+1. Requirements re **Constants**:
+   1. all numbers like block dimensions, initial locations are defined as constants
+   1. every number that has a semantic purpose (like those listed above) should be defined as constants; think of how your code **reads** - the closer to plain English the better
+   1. there are core constants and derived (calculated) constants
+      (e.g. `const FIELD_WIDTH = BLOCK_WIDTH * BLOCKS_NUMBER;`)
+   1. arrays of constants also qualify as constants
+      (e.g. `const INITIAL_POSITIONS = [1,2,3,4].map(rowNumber => rowNumber * BLOCK_HEIGHT);`)
+   1. const objects help organizing and structure const data even better
+      (e.g. `const PLAYER_CONF = { initialPosition: {x: 1, y: 5}, sprite: '...', ...etc... };`
+1. Requirements re **OOP**:
+   1. OO is implemented using JS prototype chain object model (**not** ES2015/ES6 `class` syntax)
+   1. properties common for some classes are generalized into a base class
+      (e.g. there is `Character` base class, which is extended by `Enemy` and `Player` classes)
+   1. class extension is implemented using `Subclass.prototype = Object.create(Superclass.prototype)`,
+      not `Subclass.prototype = new Superclass(params);`;
+      [Useful resource](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain)
+   1. classes do not refer to any global variables, like global variable `player`, which is an instance of `Player` class
+      (referring to global constants and globals provided by the gaming platform like `Resources` is OK);
+      Hint: pass instance of a game object (or objects) as an argument to other game objects they need to interact with
+   1. Separation of Concerns principle is followed
+      (e.g. `update` method does only rendering and
+      doesn't **contain** any inline code to check e.g. collisions)
+1. Most common mistakes
+  1. Make sure `target = condition ? valueWhenConditionTrue : valueWhenConditionFalse` is used instead of
+     `condition ? target = valueWhenConditionTrue : target = valueWhenConditionFalse`;
+     [Conditional (ternary) operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator)
 
 ### OOP Exercise
 
 Relates to
 [OOP Exercise](https://github.com/kottans/frontend/blob/master/tasks/js-post-oop.md).
 
-Minimal requirements to meet:
-
-- [ ] Implement a base class to inherit from
-- [ ] Employ default parameters
-- [ ] Each species is represented with its own class
-- [ ] No need to specify species at instantiation
-- [ ] Classes for species that do not have hands by natural design
+1. Minimal requirements to meet:
+   1. Implement base classes the child classes inherit shared properties from
+   1. Employ default parameters' values where appropriate
+   1. Each species is represented with its own class
+   1. There is no need to specify species at instantiation yet species are printed
+   1. A class constructor's signature should be very specific as to what parameters they expect to receive 
+   1. Classes for species that do not have hands by natural design
       do not consequently have `hands` or any equivalent property
-- [ ] All inhabitants are stored in a container (array or object)
-- [ ] JS native features are intensively employed (`const`, `let`, `Array.map|join|forEach|...`, etc)
-- [ ] [OOP, SOLID and DRY](https://github.com/OleksiyRudenko/a-tiny-JS-world/blob/master/README.md#learn-on-your-own)
+   1. All inhabitants are stored in a container (array or object - decide which is better for further manipulations)
+   1. [OOP, SOLID and DRY](https://github.com/OleksiyRudenko/a-tiny-JS-world/blob/master/README.md#learn-on-your-own)
       principles are intensively employed
-
-Optional level up (not required to implement):
-
-- [ ] Friends list is a list of objects refs rather than names (strings)
-- [ ] Cat-woman class is built employing composition rather
+1. Optional level up (not required to implement):
+   1. Friends list is a list of objects refs to other inhabitants rather than just names (strings)
+   1. Cat-woman class is built employing composition rather
       than inheritance only
-
-Bonus:
-
-- [ ] `toString` magic method; when implemented `print(inhabitant)`
+1. Bonus:
+   1. `toString` magic method; when implemented `print(inhabitant)`
       does the job as `.toString` is called implicitly
-- [ ] `this.constructor.name`; when used no need to store `species` property
+   1. `this.constructor.name`; when used properly there is no need to specify `species` property explicitly
 
-[ES6 classes cheat-sheet](https://gist.github.com/OleksiyRudenko/672d39b08d9d0da4e179aca49876c58b)
+Helpful resources:
+- [ES6 classes cheat-sheet](https://gist.github.com/OleksiyRudenko/672d39b08d9d0da4e179aca49876c58b)
+- [Levelling skills up on Tiny JS World](https://github.com/OleksiyRudenko/a-tiny-JS-world#leveling-your-skills-up)
 
 ### Friends App
 

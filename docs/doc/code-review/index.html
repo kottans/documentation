@@ -13,28 +13,28 @@
 <link data-react-helmet="true" rel="shortcut icon" href="/documentation/img/favicon.ico">
 
 
-<link rel="stylesheet" href="/documentation/styles.58ae1372.css">
+<link rel="stylesheet" href="/documentation/styles.bd42d441.css">
 
 
-<link rel="preload" href="/documentation/styles.26923b3a.js" as="script">
+<link rel="preload" href="/documentation/styles.f1ae1fc1.js" as="script">
 
-<link rel="preload" href="/documentation/runtime~main.c7351b7d.js" as="script">
+<link rel="preload" href="/documentation/runtime~main.e08786a1.js" as="script">
 
-<link rel="preload" href="/documentation/main.1ac1696c.js" as="script">
+<link rel="preload" href="/documentation/main.a8ebd661.js" as="script">
 
-<link rel="preload" href="/documentation/1.1c34e5cb.js" as="script">
+<link rel="preload" href="/documentation/1.b16457f7.js" as="script">
 
-<link rel="preload" href="/documentation/2.d61e87a8.js" as="script">
+<link rel="preload" href="/documentation/2.35880a96.js" as="script">
 
-<link rel="preload" href="/documentation/3.18e8c60f.js" as="script">
+<link rel="preload" href="/documentation/3.2529888e.js" as="script">
 
-<link rel="preload" href="/documentation/1be78505.7549a9ab.js" as="script">
+<link rel="preload" href="/documentation/1be78505.e562ada1.js" as="script">
 
-<link rel="preload" href="/documentation/da167576.4f6d466c.js" as="script">
+<link rel="preload" href="/documentation/da167576.d426b05b.js" as="script">
 
-<link rel="preload" href="/documentation/17896441.2230e451.js" as="script">
+<link rel="preload" href="/documentation/17896441.83322b18.js" as="script">
 
-<link rel="preload" href="/documentation/d5d0f6b1.0aa08d39.js" as="script">
+<link rel="preload" href="/documentation/72e26640.bbba3fd6.js" as="script">
 
 </head>
 <body>
@@ -100,25 +100,25 @@ does the job as <code>.toString</code> is called implicitly</li><li>when <code>t
 </span></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token function" style="color:rgb(130, 170, 255)">sorter</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">;</span><span class="token plain"></span></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">;</span></div></div></div></div></div><p>And that&#x27;s all :)</p><ol><li>You have separated the logic of sorting into two separate domains - sorting by age and sorting by name and moved everything into separately mapped handlers. So you don&#x27;t need to write endless <code>if ... else</code> checks. Instead, you are using declarative code.</li><li>Because of this you don&#x27;t have a place for &quot;misprinting&quot;</li><li>You don&#x27;t pass any strings as arguments anywhere, which is antipattern in general. And with object keys in particular.</li></ol><p><em>Premature optimization</em></p><p>And don&#x27;t do premature optimization. As an example <a href="https://wiki.c2.com/?PrematureOptimization">here</a> TLDR: You write code for humans, not machines.</p><p>So, the quote from the article above:</p><ol><li>Make it work.</li><li>Make it right - the code is readable and every idea is expressed.</li><li>Make everything work.</li><li>Make everything right.</li><li>Use the system and find performance bottlenecks.</li><li>Use a profiler in those bottlenecks to determine what needs to be optimized.</li><li>Make it fast. You maintained unit tests, right? Then you can refactor the code mercilessly in order to improve the performance.</li></ol><p>And remember, the best way to speed up the review, is to fix errors prior to review. 90% of errors are shared - go thru closed PRs with Friends App and check discussions there. You will find places with the same mistakes</p><hr><h2><a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_ZqCz" id="video"></a><a aria-hidden="true" tabindex="-1" class="hash-link" href="#video" title="Direct link to heading">#</a>Video</h2><p>Watch a video below for <strong>Kottans code review basics intro</strong></p><p>(1h13m23s, narrated in Russian)</p><p><a href="https://youtu.be/zq9w09qXrOk"><img src="./img/yt-kottans-p2p-creview.png" alt="Kottans p2p course intro"></a></p></div></article><div class="margin-vert--lg"><nav class="pagination-nav"><div class="pagination-nav__item"><a class="pagination-nav__link" href="/documentation/docs/doc/contribute"><div class="pagination-nav__link--sublabel">Previous</div><div class="pagination-nav__link--label">« How to Contribute</div></a></div><div class="pagination-nav__item pagination-nav__item--next"><a class="pagination-nav__link" href="/documentation/docs/doc/philosophy"><div class="pagination-nav__link--sublabel">Next</div><div class="pagination-nav__link--label">Philosophy »</div></a></div></nav></div></div></div><div class="col col--3"><div class="tableOfContents_TbNY"><ul class="contents contents__left-border"><li><a href="#general-requirements" class="contents__link">General requirements</a><ul><li><a href="#pull-request-template" class="contents__link">Pull-request template</a></li><li><a href="#user-interface-testing" class="contents__link">User interface testing</a></li><li><a href="#code-formatting" class="contents__link">Code formatting</a></li><li><a href="#code-style" class="contents__link">Code style</a></li><li><a href="#dry-kiss-solid" class="contents__link">DRY, KISS, SOLID</a></li><li><a href="#javascript-features" class="contents__link">JavaScript Features</a></li></ul></li><li><a href="#typical-mistakes" class="contents__link">Typical mistakes</a><ul><li><a href="#popup-task" class="contents__link">POPUP TASK</a></li><li><a href="#dom-api" class="contents__link">DOM API</a></li><li><a href="#a-tiny-js-world----pre-oop" class="contents__link">A Tiny JS World -- (pre-OOP)</a></li><li><a href="#oo-js-frogger" class="contents__link">OO JS (Frogger)</a></li><li><a href="#oop-exercise" class="contents__link">OOP Exercise</a></li><li><a href="#friends-app" class="contents__link">Friends App</a></li></ul></li><li><a href="#video" class="contents__link">Video</a></li></ul></div></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container"><div class="row footer__links"><div class="col footer__col"><h4 class="footer__title">Docs</h4><ul class="footer__items"><li class="footer__item"><a class="footer__link-item" href="/documentation/docs/doc/philosophy">Docs</a></li></ul></div><div class="col footer__col"><h4 class="footer__title">Community</h4><ul class="footer__items"><li class="footer__item"><a class="footer__link-item" target="_blank" rel="noopener noreferrer" href="https://twitter.com/kottans_org">Twitter</a></li><li class="footer__item"><a class="footer__link-item" target="_blank" rel="noopener noreferrer" href="https://t.me/radio_kottans">Telegram</a></li><li class="footer__item"><a class="footer__link-item" target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/kottans_org/">Instagram</a></li></ul></div><div class="col footer__col"><h4 class="footer__title">Social</h4><ul class="footer__items"><li class="footer__item"><a class="footer__link-item" target="_blank" rel="noopener noreferrer" href="https://kottans.org/">Kottans.org</a></li><li class="footer__item"><a class="footer__link-item" href="/documentation/blog">Blog</a></li><li class="footer__item"><a class="footer__link-item" target="_blank" rel="noopener noreferrer" href="https://github.com/kottans">GitHub</a></li></ul></div></div><div class="text--center"><div>2022 Kottans. Built with Docusaurus.</div></div></div></footer>
 </div>
 
-<script src="/documentation/styles.26923b3a.js"></script>
+<script src="/documentation/styles.f1ae1fc1.js"></script>
 
-<script src="/documentation/runtime~main.c7351b7d.js"></script>
+<script src="/documentation/runtime~main.e08786a1.js"></script>
 
-<script src="/documentation/main.1ac1696c.js"></script>
+<script src="/documentation/main.a8ebd661.js"></script>
 
-<script src="/documentation/1.1c34e5cb.js"></script>
+<script src="/documentation/1.b16457f7.js"></script>
 
-<script src="/documentation/2.d61e87a8.js"></script>
+<script src="/documentation/2.35880a96.js"></script>
 
-<script src="/documentation/3.18e8c60f.js"></script>
+<script src="/documentation/3.2529888e.js"></script>
 
-<script src="/documentation/1be78505.7549a9ab.js"></script>
+<script src="/documentation/1be78505.e562ada1.js"></script>
 
-<script src="/documentation/da167576.4f6d466c.js"></script>
+<script src="/documentation/da167576.d426b05b.js"></script>
 
-<script src="/documentation/17896441.2230e451.js"></script>
+<script src="/documentation/17896441.83322b18.js"></script>
 
-<script src="/documentation/d5d0f6b1.0aa08d39.js"></script>
+<script src="/documentation/72e26640.bbba3fd6.js"></script>
 
 
 </body>

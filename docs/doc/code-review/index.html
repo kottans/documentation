@@ -18,7 +18,7 @@
 
 <link rel="preload" href="/documentation/styles.f1ae1fc1.js" as="script">
 
-<link rel="preload" href="/documentation/runtime~main.e08786a1.js" as="script">
+<link rel="preload" href="/documentation/runtime~main.268205e1.js" as="script">
 
 <link rel="preload" href="/documentation/main.a8ebd661.js" as="script">
 
@@ -34,7 +34,7 @@
 
 <link rel="preload" href="/documentation/17896441.83322b18.js" as="script">
 
-<link rel="preload" href="/documentation/72e26640.bbba3fd6.js" as="script">
+<link rel="preload" href="/documentation/72e26640.27bc67d4.js" as="script">
 
 </head>
 <body>
@@ -63,34 +63,19 @@ Instead, add listener to their shared container (parent)
 and use <code>event.target</code> to identify a specific item the event
 happened with.</p><p><strong>Relying on DOM structure</strong></p><p>Don&#x27;t use constructions like <code>children[0]</code>, <code>firstElementChild</code>, <code>parentNode</code>, <code>nextSibling</code>, etc. In such way, you rely on the order of DOM elements. So in case when you will have changed design - your code will be broken. Which is bad, obviously. Use <code>querySelector</code> or <code>closest</code>, if in event, instead.</p><p><strong>Changing styles with JS</strong></p><p>Don&#x27;t use inline style changing - <code>element.style</code>. In most cases this is a bad approach for several reasons:</p><ol><li>First of all, a browser will apply such styling for each line separately/ Which means, that every such line of code will be a reason for running of calculations of a page and for drawing it, so you can receive a performance problem. Read about reflow and repaint.</li><li>This is an imperative way, you need to write declarative and describe what your code does, not how. This will make your code shorter and easier to maintain.</li><li>Reuse of code. Saying, you will need to rotate some other stuff - you will add a similar line to another part of an application. Which is not right because of DRY.</li></ol><p>So, replace such parts with CSS classes. You can use <code>classList</code> to manipulate them.</p><p>Separation of responsibility: JS is for logic, CSS - for styling.</p><p><strong>Handling changes</strong></p><p><code>keyUp</code> handles not all input types (try pasting text via context menu instead of typing)</p><h3><a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_ZqCz" id="a-tiny-js-world----pre-oop"></a><a aria-hidden="true" tabindex="-1" class="hash-link" href="#a-tiny-js-world----pre-oop" title="Direct link to heading">#</a>A Tiny JS World -- (pre-OOP)</h3><p><em>Relates to <a href="https://github.com/kottans/frontend/blob/master/tasks/js-pre-oop.md">Building a Tiny JS World</a> task.</em></p><ol><li>Men and women belong to the same biological species.</li><li><code>prototype</code>-based or ES2015/ES6 <code>class</code> syntax aren&#x27;t used.</li><li>Code is <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a>, which means that whenever you see a pattern in your code it should be optimized. Examples:<ol><li><code>print(dog); print(cat); etc ... </code> should be refactored employing <code>Array.forEach</code> as the least.</li><li><code>`${obj.legs}; ${obj.name}; etc...`</code> (yes, strings are also code) must be refactored employing appropriate <code>Array</code> methods</li></ol></li><li><code>Object</code> methods like <code>keys</code>, <code>values</code>, <code>entries</code> shouldn&#x27;t be used when a particular order is required as these do not guarantee any particular order of keys/values. Same refers to <code>for...of</code> and <code>for...in</code> when applied to objects.
 Hint: List explicitly the properties used to form an object presentation string.</li></ol><h3><a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_ZqCz" id="oo-js-frogger"></a><a aria-hidden="true" tabindex="-1" class="hash-link" href="#oo-js-frogger" title="Direct link to heading">#</a>OO JS (Frogger)</h3><p>Relates to
-<a href="https://github.com/kottans/frontend/blob/master/tasks/js-oop.md">Object-Oriented JavaScript</a> task.</p><p>A. Minimal requirements to meet:
-1. employ ES6 features like <code>const</code>, <code>let</code> etc. (with exclusion of ES6 <code>class</code> syntax)
-1. the code is very <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a>
-1. Requirements regarding <strong>Constants</strong>:
-1. all numbers like block dimensions, initial locations are defined as constants
-1. every number that has a semantic purpose (like those listed above) should be defined as constants; think of how your code <strong>reads</strong> - the closer to plain English the better
-1. there are core constants and derived (calculated) constants
-(e.g. <code>const FIELD_WIDTH = BLOCK_WIDTH * BLOCKS_NUMBER;</code>)
-1. arrays of constants also qualify as constants
-(e.g. <code>const INITIAL_POSITIONS = [1,2,3,4].map(rowNumber =&gt; rowNumber * BLOCK_HEIGHT);</code>)
-1. const objects help organizing and structure const data even better
-(e.g. <code>const PLAYER_CONF = { initialPosition: {x: 1, y: 5}, sprite: &#x27;...&#x27;, ...etc... };</code>
-1. Requirements regarding <strong>OOP</strong>:
-1. properties common for some classes are generalized into a base class
-(e.g. there is <code>Character</code> base class, which is extended by <code>Enemy</code> and <code>Player</code> classes)
-1. class extension is implemented using <code>Subclass.prototype = Object.create(Superclass.prototype)</code>,
+<a href="https://github.com/kottans/frontend/blob/master/tasks/js-oop.md">Object-Oriented JavaScript</a> task.</p><p>Minimal requirements to meet:</p><ol><li>Employ ES6 features like <code>const</code>, <code>let</code> etc. (with exclusion of ES6 <code>class</code> syntax).</li><li>The code is very <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a>.</li><li>Requirements regarding <strong>Constants</strong>:<ol><li>All numbers like block dimensions, initial locations are defined as constants.</li><li>Every number that has a semantic purpose (like those listed above) should be defined as constants; think of how your code <strong>reads</strong> - the closer to plain English the better.</li><li>There are core constants and derived (calculated) constants
+(e.g. <code>const FIELD_WIDTH = BLOCK_WIDTH * BLOCKS_NUMBER;</code>).</li><li>Arrays of constants also qualify as constants,
+e.g. <code>const INITIAL_POSITIONS = [1,2,3,4].map(rowNumber =&gt; rowNumber * BLOCK_HEIGHT);</code></li><li>Const objects help organizing and structure const data even better,
+e.g. <code>const PLAYER_CONF = { initialPosition: {x: 1, y: 5}, sprite: &#x27;...&#x27;, ...etc... };</code></li></ol></li><li>Requirements regarding <strong>OOP</strong>:<ol><li>Properties common for some classes are generalized into a base class
+(e.g. there is <code>Character</code> base class, which is extended by <code>Enemy</code> and <code>Player</code> classes).</li><li>Class extension is implemented using <code>Subclass.prototype = Object.create(Superclass.prototype)</code>,
 not <code>Subclass.prototype = new Superclass(params);</code>;
-<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain">Useful resource</a>
-1. classes do not refer to any global variables, like global variable <code>player</code>, which is an instance of <code>Player</code> class
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain">Useful resource</a>.</li><li>Classes do not refer to any global variables, like global variable <code>player</code>, which is an instance of <code>Player</code> class
 (referring to global constants and globals provided by the gaming platform like <code>Resources</code> is OK);
-Hint: pass instance of a game object (or objects) as an argument to other game objects they need to interact with
-1. Separation of Concerns principle is followed
+Hint: pass instance of a game object (or objects) as an argument to other game objects they need to interact with.</li><li>Separation of Concerns principle is followed
 (e.g. <code>update</code> method only updates character coordinates and
-doesn&#x27;t contain any <strong>inline</strong> code to check e.g. collisions; calling other methods from <code>update</code> is legitimate)
-1. Most common mistakes
-1. Make sure <code>target = condition ? valueWhenConditionTrue : valueWhenConditionFalse</code> is used instead of
+doesn&#x27;t contain any <strong>inline</strong> code to check e.g. collisions; calling other methods from <code>update</code> is legitimate).</li></ol></li><li>Most common mistakes:<ol><li>Make sure <code>target = condition ? valueWhenConditionTrue : valueWhenConditionFalse</code> is used instead of
 <code>condition ? target = valueWhenConditionTrue : target = valueWhenConditionFalse</code>;
-<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator">Conditional (ternary) operator</a></p><h3><a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_ZqCz" id="oop-exercise"></a><a aria-hidden="true" tabindex="-1" class="hash-link" href="#oop-exercise" title="Direct link to heading">#</a>OOP Exercise</h3><p>Relates to
+see <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator">Conditional (ternary) operator</a>.</li></ol></li></ol><h3><a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_ZqCz" id="oop-exercise"></a><a aria-hidden="true" tabindex="-1" class="hash-link" href="#oop-exercise" title="Direct link to heading">#</a>OOP Exercise</h3><p>Relates to
 <a href="https://github.com/kottans/frontend/blob/master/tasks/js-post-oop.md">OOP Exercise</a>.</p><ol><li>Minimal requirements to meet:<ol><li>Implement base classes for child classes to inherit shared properties from.</li><li>Employ default parameters&#x27; values where appropriate</li><li>Each species is represented with its own class</li><li>There is no need to specify species at instantiation yet species are printed</li><li>A class constructor&#x27;s signature should be very specific as to what parameters they expect to receive </li><li>Classes for species that do not have hands by natural design
 do not consequently have <code>hands</code> or any equivalent property</li><li>All inhabitants are stored in a container (array or object - decide which is better for further manipulations)</li><li><a href="https://github.com/OleksiyRudenko/a-tiny-JS-world/blob/master/README.md#learn-on-your-own">OOP, SOLID and DRY</a>
 principles are intensively employed</li></ol></li><li>Optional level up (not required to implement):<ol><li>Friends list is a list of objects refs to other inhabitants rather than just names (strings)</li><li>Cat-woman class is built employing composition rather
@@ -102,7 +87,7 @@ does the job as <code>.toString</code> is called implicitly</li><li>when <code>t
 
 <script src="/documentation/styles.f1ae1fc1.js"></script>
 
-<script src="/documentation/runtime~main.e08786a1.js"></script>
+<script src="/documentation/runtime~main.268205e1.js"></script>
 
 <script src="/documentation/main.a8ebd661.js"></script>
 
@@ -118,7 +103,7 @@ does the job as <code>.toString</code> is called implicitly</li><li>when <code>t
 
 <script src="/documentation/17896441.83322b18.js"></script>
 
-<script src="/documentation/72e26640.bbba3fd6.js"></script>
+<script src="/documentation/72e26640.27bc67d4.js"></script>
 
 
 </body>

@@ -303,34 +303,35 @@ _Relates to [Building a Tiny JS World](https://github.com/kottans/frontend/blob/
 Relates to
 [Object-Oriented JavaScript](https://github.com/kottans/frontend/blob/master/tasks/js-oop.md) task.
 
-A. Minimal requirements to meet:
-1. employ ES6 features like `const`, `let` etc. (with exclusion of ES6 `class` syntax)
-1. the code is very [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)
+Minimal requirements to meet:
+
+1. Employ ES6 features like `const`, `let` etc. (with exclusion of ES6 `class` syntax).
+1. The code is very [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself).
 1. Requirements regarding **Constants**:
-   1. all numbers like block dimensions, initial locations are defined as constants
-   1. every number that has a semantic purpose (like those listed above) should be defined as constants; think of how your code **reads** - the closer to plain English the better
-   1. there are core constants and derived (calculated) constants
-      (e.g. `const FIELD_WIDTH = BLOCK_WIDTH * BLOCKS_NUMBER;`)
-   1. arrays of constants also qualify as constants
-      (e.g. `const INITIAL_POSITIONS = [1,2,3,4].map(rowNumber => rowNumber * BLOCK_HEIGHT);`)
-   1. const objects help organizing and structure const data even better
-      (e.g. `const PLAYER_CONF = { initialPosition: {x: 1, y: 5}, sprite: '...', ...etc... };`
+   1. All numbers like block dimensions, initial locations are defined as constants.
+   1. Every number that has a semantic purpose (like those listed above) should be defined as constants; think of how your code **reads** - the closer to plain English the better.
+   1. There are core constants and derived (calculated) constants
+      (e.g. `const FIELD_WIDTH = BLOCK_WIDTH * BLOCKS_NUMBER;`).
+   1. Arrays of constants also qualify as constants,
+      e.g. `const INITIAL_POSITIONS = [1,2,3,4].map(rowNumber => rowNumber * BLOCK_HEIGHT);`
+   1. Const objects help organizing and structure const data even better,
+      e.g. `const PLAYER_CONF = { initialPosition: {x: 1, y: 5}, sprite: '...', ...etc... };`
 1. Requirements regarding **OOP**:
-   1. properties common for some classes are generalized into a base class
-      (e.g. there is `Character` base class, which is extended by `Enemy` and `Player` classes)
-   1. class extension is implemented using `Subclass.prototype = Object.create(Superclass.prototype)`,
+   1. Properties common for some classes are generalized into a base class
+      (e.g. there is `Character` base class, which is extended by `Enemy` and `Player` classes).
+   1. Class extension is implemented using `Subclass.prototype = Object.create(Superclass.prototype)`,
       not `Subclass.prototype = new Superclass(params);`;
-      [Useful resource](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain)
-   1. classes do not refer to any global variables, like global variable `player`, which is an instance of `Player` class
+      [Useful resource](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain).
+   1. Classes do not refer to any global variables, like global variable `player`, which is an instance of `Player` class
       (referring to global constants and globals provided by the gaming platform like `Resources` is OK);
-      Hint: pass instance of a game object (or objects) as an argument to other game objects they need to interact with
+      Hint: pass instance of a game object (or objects) as an argument to other game objects they need to interact with.
    1. Separation of Concerns principle is followed
       (e.g. `update` method only updates character coordinates and
-      doesn't contain any **inline** code to check e.g. collisions; calling other methods from `update` is legitimate)
-1. Most common mistakes
-  1. Make sure `target = condition ? valueWhenConditionTrue : valueWhenConditionFalse` is used instead of
-     `condition ? target = valueWhenConditionTrue : target = valueWhenConditionFalse`;
-     [Conditional (ternary) operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator)
+      doesn't contain any **inline** code to check e.g. collisions; calling other methods from `update` is legitimate).
+1. Most common mistakes:
+   1. Make sure `target = condition ? valueWhenConditionTrue : valueWhenConditionFalse` is used instead of
+      `condition ? target = valueWhenConditionTrue : target = valueWhenConditionFalse`;
+      see [Conditional (ternary) operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator).
 
 ### OOP Exercise
 

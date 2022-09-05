@@ -32,7 +32,7 @@ PRs should have proper name (as per task name), should contain link to working d
 - `console.log` statements should not be left in final version of the code, unless it's part of the functionality
 - Fix irregular indentations and remove redundant empty lines.
 - Put an empty line at the end of every file. [Reason](https://stackoverflow.com/questions/729692/why-should-text-files-end-with-a-newline?noredirect=1&lq=1). Tune your code editor's settings so it does this for you.
-- Unnecessary comments should be avoided. Find a way to express the intent through descriptive variable names or by abstracting part of the code into properly named function. Comments, if there are any, should explain "why", not "what".
+- Unnecessary comments should be avoided. Find a way to express the intent through descriptive variable names or by abstracting parts of the code into properly named functions. Comments, if there are any, should explain "why", not "what".
 - Use prettier.io for it to format the code for you. Turn it on in your code editor or install a plugin. 
 
 ### Code style
@@ -316,7 +316,6 @@ A. Minimal requirements to meet:
    1. const objects help organizing and structure const data even better
       (e.g. `const PLAYER_CONF = { initialPosition: {x: 1, y: 5}, sprite: '...', ...etc... };`
 1. Requirements regarding **OOP**:
-   1. OO is implemented using JS prototype chain object model (**not** ES2015/ES6 `class` syntax)
    1. properties common for some classes are generalized into a base class
       (e.g. there is `Character` base class, which is extended by `Enemy` and `Player` classes)
    1. class extension is implemented using `Subclass.prototype = Object.create(Superclass.prototype)`,
@@ -356,7 +355,7 @@ Relates to
 1. Bonus:
    1. `toString` magic method; when implemented `print(inhabitant)`
       does the job as `.toString` is called implicitly
-   1. `this.constructor.name`; when used properly there is no need to specify `species` property explicitly
+   1. when `this.constructor.name` is used properly there is no need to specify `species` property explicitly
 
 Helpful resources:
 - [ES6 classes cheat-sheet](https://gist.github.com/OleksiyRudenko/672d39b08d9d0da4e179aca49876c58b)

@@ -6,14 +6,12 @@ title: How to Conduct A Helpful Code Review
 As a reviewer consider the following guidelines:
 
 - [How to Do Code Reviews Like a Human (Part One)](https://mtlynch.io/human-code-reviews-1/) /
-  [Code review по-человечески (часть 1)](https://habr.com/en/post/340550/)
 - [How to Do Code Reviews Like a Human (Part Two)](https://mtlynch.io/human-code-reviews-2/) /
-  [Code review по-человечески (часть 2)](https://habr.com/ru/post/342244/)
 - [PR Code Review Phrase Book](https://gist.github.com/OleksiyRudenko/e6f573d7aca2cc854ccce6087cfe7138)
 
 ## General requirements
 
-The code is written for other people to read and contribute to comfortably.
+The code is written for other people to read and to contribute to the code base comfortably.
 We also want our code to be maintainable and scalable.
 
 The majority of recommendations in the next, tasks-specific section,
@@ -34,7 +32,7 @@ PRs should have proper name (as per task name), should contain link to working d
 - `console.log` statements should not be left in final version of the code, unless it's part of the functionality
 - Fix irregular indentations and remove redundant empty lines.
 - Put an empty line at the end of every file. [Reason](https://stackoverflow.com/questions/729692/why-should-text-files-end-with-a-newline?noredirect=1&lq=1). Tune your code editor's settings so it does this for you.
-- Unnecessary comments should be avoided. Find a way to express the intent through expressive variable names or by abstracting part of the code into properly named function. Comments, if there are any, should explain "why", not "what".
+- Unnecessary comments should be avoided. Find a way to express the intent through descriptive variable names or by abstracting part of the code into properly named function. Comments, if there are any, should explain "why", not "what".
 - Use prettier.io for it to format the code for you. Turn it on in your code editor or install a plugin. 
 
 ### Code style
@@ -50,7 +48,7 @@ let myVar, myOtherVar;
 ```
 
 - Variable names should not be too short or too obscure:
-
+_(although some conventional shorthands are OK; e.g. `i` when looping through array by index, `x`/`y` to denote coordinates and other similar cases)_
 ```javascript
 //Before:
 let fns, a, b, cont, el, item;
@@ -280,7 +278,7 @@ Don't use inline style changing - `element.style`. In most cases this is a bad a
 2. This is an imperative way, you need to write declarative and describe what your code does, not how. This will make your code shorter and easier to maintain.
 3. Reuse of code. Saying, you will need to rotate some other stuff - you will add a similar line to another part of an application. Which is not right because of DRY.
 
-So, replace such parts with css classes. You can use `classList` to manipulate them.
+So, replace such parts with CSS classes. You can use `classList` to manipulate them.
 
 Separation of responsibility: JS is for logic, CSS - for styling.
 
@@ -294,8 +292,8 @@ _Relates to [Building a Tiny JS World](https://github.com/kottans/frontend/blob/
 
 1. Men and women belong to the same biological species.
 1. `prototype`-based or ES2015/ES6 `class` syntax aren't used.
-1. Code is [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself), which means that whenever you see a pattern in your code those should be eliminated as much as possible. Examples:
-   1. `print(dog); print(cat); etc ... ` should be refactored employing `Array.forEach` as the least
+1. Code is [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself), which means that whenever you see a pattern in your code it should be optimized. Examples:
+   1. `print(dog); print(cat); etc ... ` should be refactored employing `Array.forEach` as the least.
    1. `` `${obj.legs}; ${obj.name}; etc...` `` (yes, strings are also code) must be refactored employing appropriate `Array` methods
 1. `Object` methods like `keys`, `values`, `entries` shouldn't be used when a particular order is required as these do not guarantee any particular order of keys/values. Same refers to `for...of` and `for...in` when applied to objects.
    Hint: List explicitly the properties used to form an object presentation string.
@@ -308,7 +306,7 @@ Relates to
 A. Minimal requirements to meet:
 1. employ ES6 features like `const`, `let` etc. (with exclusion of ES6 `class` syntax)
 1. the code is very [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)
-1. Requirements re **Constants**:
+1. Requirements regarding **Constants**:
    1. all numbers like block dimensions, initial locations are defined as constants
    1. every number that has a semantic purpose (like those listed above) should be defined as constants; think of how your code **reads** - the closer to plain English the better
    1. there are core constants and derived (calculated) constants
@@ -317,7 +315,7 @@ A. Minimal requirements to meet:
       (e.g. `const INITIAL_POSITIONS = [1,2,3,4].map(rowNumber => rowNumber * BLOCK_HEIGHT);`)
    1. const objects help organizing and structure const data even better
       (e.g. `const PLAYER_CONF = { initialPosition: {x: 1, y: 5}, sprite: '...', ...etc... };`
-1. Requirements re **OOP**:
+1. Requirements regarding **OOP**:
    1. OO is implemented using JS prototype chain object model (**not** ES2015/ES6 `class` syntax)
    1. properties common for some classes are generalized into a base class
       (e.g. there is `Character` base class, which is extended by `Enemy` and `Player` classes)
@@ -328,8 +326,8 @@ A. Minimal requirements to meet:
       (referring to global constants and globals provided by the gaming platform like `Resources` is OK);
       Hint: pass instance of a game object (or objects) as an argument to other game objects they need to interact with
    1. Separation of Concerns principle is followed
-      (e.g. `update` method does only rendering and
-      doesn't **contain** any inline code to check e.g. collisions)
+      (e.g. `update` method only updates character coordinates and
+      doesn't contain any **inline** code to check e.g. collisions; calling other methods from `update` is legitimate)
 1. Most common mistakes
   1. Make sure `target = condition ? valueWhenConditionTrue : valueWhenConditionFalse` is used instead of
      `condition ? target = valueWhenConditionTrue : target = valueWhenConditionFalse`;
@@ -341,7 +339,7 @@ Relates to
 [OOP Exercise](https://github.com/kottans/frontend/blob/master/tasks/js-post-oop.md).
 
 1. Minimal requirements to meet:
-   1. Implement base classes the child classes inherit shared properties from
+   1. Implement base classes for child classes to inherit shared properties from.
    1. Employ default parameters' values where appropriate
    1. Each species is represented with its own class
    1. There is no need to specify species at instantiation yet species are printed
